@@ -6,7 +6,7 @@
 #SBATCH -c 1
 #SBATCH --mail-type=END
 
-# This script reads from "config.yml" and executes a specific snakemake pipeline
+# This script reads from "config.yaml" and executes a specific snakemake pipeline
 # depending on the value of the "paired" variable.
 
 # Borrowed this YAML parser from Stefan Farestam on Stackoverflow
