@@ -1,3 +1,4 @@
 star_index: "/work/mc394/GenomeIndex/bowtie2/GRCm38"
 annotation: "/work/mc394/genomes/annotation/wgencode.vM17.primary_assembly.annotation.gtf"
+count_filename: "generic.counts"
 paired: "false"
