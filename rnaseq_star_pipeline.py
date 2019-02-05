@@ -1,8 +1,10 @@
-SAMPLES, = glob_wildcards("raw_data/{smp}.fastq.gz")
-INDEX_DIR = "/work/mc394/star_index/GRCm38/"
-ANNOTATION = "/work/mc394/genomes/annotation/wgencode.vM17.primary_assembly.annotation.gtf"
+configfile: "config.yaml"
 
-COUNT_FILENAME = ["results/essig2017_roquin_tfr.counts"]
+SAMPLES, = glob_wildcards("raw_data/{smp}.fastq.gz")
+INDEX_DIR = config["star_index"]
+ANNOTATION = config["annotation"]
+
+COUNT_FILENAME = config["count_filename"]
 
 ALL_FASTQC = expand("fastqc_out/{smp}_fastqc.zip", smp=SAMPLES)
 ALL_BAMCOV = expand("results/{sample}.rpkm.bw", sample=SAMPLES)
