@@ -4,7 +4,7 @@ SAMPLES, = glob_wildcards("raw_data/{smp}_R1.fastq.gz")
 INDEX_DIR = config["star_index"]
 ANNOTATION = config["annotation"]
 
-COUNT_FILENAME = config["count_filename"]
+COUNT_FILENAME = [config["count_filename"]]
 
 ALL_FASTQC = expand("fastqc_out/{sample}_R1_fastqc.zip", sample=SAMPLES)
 ALL_BAMCOV = expand("results/{sample}.rpkm.bw", sample=SAMPLES)
