@@ -10,7 +10,7 @@ ALL_FASTQC = expand("fastqc_out/{smp}_fastqc.zip", smp=SAMPLES)
 ALL_BAMCOV = expand("results/{sample}.rpkm.bw", sample=SAMPLES)
 
 rule all:
-    input: ALL_BAMCOV + ALL_FASTQC + COUNT_FILENAME
+    input: ALL_BAMCOV + ALL_FASTQC + COUNT_FILENAME + ["multiqc_report.html"]
 
 rule fastqc:
     input:
@@ -124,3 +124,14 @@ rule bam_coverage:
                 --ignoreForNormalization chrX \
                 &> {log}
                 """
+
+rule mutltiqc:
+    input:
+        ALL_BAMCOV + ALL_FASTQC + COUNT_FILENAME
+    output:
+        "multiqc_report.html"
+    singularity:
+        "docker://ewels/multiqc"
+    threads: 1
+    shell:
+        "multiqc ."
