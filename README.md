@@ -30,7 +30,14 @@ $ git clone https://github.com/jdwheaton/rnaseq_pipeline
 6. Build an index for STAR using the following command (executed as a batch script if using a cluster):
 
 ```
-singularity exec -H $PWD shub://jdwheaton/
+singularity exec -H $PWD -B <path_to_index_directory> shub://jdwheaton/singularity_ngs:star_htseq \
+    STAR \
+		--runMode genomeGenerate \
+		--genomeDir <path_to_index_directory> \
+		--genomeFastaFiles <path_to_genome_fasta> \
+		--runThreadN <num_threads> \
+		--sjdbGTFfile <path_to_genome_annotation> \
+		--sjdbOverhang 49
 ```
 
 7. Edit the cluster.json file to suit your particular cluster (i.e. partition name, memory, etc.)
@@ -40,3 +47,11 @@ singularity exec -H $PWD shub://jdwheaton/
     - Path to transcriptome reference (.gtf file)
     - Name of final .counts file
     - Boolean value (True or False) indicating whether your data are single- or paired-end.
+    
+9. Edit the `snakemake.sh` submission script to reflect your cluster configuration. Right now, the command works for SLURM systems, but you will need to modify the `-B <path>` to allow singularity access to directories other than your home directory. For example, if you create your STAR index outside of your home directory, you will need to provide either the STAR index directory or a location in its parent tree.
+
+10. Run the `snakemake.sh` script as a batch script using your cluster's scheduler. For SLURM, this would be:
+```
+sbatch snakemake.sh
+```
+That's it! Snakemake will automagically perform QC, trimming, alignment, and read-counting steps for all of the FASTQ files provided in the `raw_data` folder.
