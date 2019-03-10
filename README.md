@@ -63,8 +63,8 @@ That's it! Snakemake will automagically perform QC, trimming, alignment, and rea
 
 Your files will be processed as follows:
 
-1. QC reports will be generated for all FASTQ files using FASTQC.
-2. Adapters are automatically detected and removed from reads using Trim Galore!
-3. Trimmed reads are aligned to the genome using STAR.
-4. Reads aligning to genes are counted using featureCounts, resulting in a matrix of counts that can be used as input to edgeR or DESeq2 for differential expression analysis.
-5. Covereage tracks for visualization (bigWig) are generated using deepTools bamCoverage
+1. QC reports will be generated for all FASTQ files using [FASTQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/).
+2. Adapters are automatically detected and removed from reads using (Trim Galore!)[https://www.bioinformatics.babraham.ac.uk/projects/trim_galore/]
+3. Trimmed reads are aligned to the genome using [STAR](https://github.com/alexdobin/STAR).
+4. Reads aligning to genes are counted using [featureCounts](http://bioinf.wehi.edu.au/featureCounts/), resulting in a matrix of counts that can be used as input to edgeR or DESeq2 for differential expression analysis.
+5. Covereage tracks for visualization (bigWig) are generated using [deepTools](https://deeptools.readthedocs.io/en/develop/) bamCoverage
