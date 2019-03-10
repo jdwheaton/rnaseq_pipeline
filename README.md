@@ -25,7 +25,7 @@ $ git clone https://github.com/jdwheaton/rnaseq_pipeline
 
 4. Copy or symlink your raw data (`*.fastq.gz` files) into the `raw_data` folder.
 
-5. Download the latest genome FASTA file and .gtf annotation for your organism (i.e. [Gencode](http://gencodegenes.org)
+5. Download the latest genome FASTA file and .gtf annotation for your organism (i.e. [Gencode](http://gencodegenes.org))
 
 6. Build an index for STAR using the following command (executed as a batch script if using a cluster):
 
@@ -39,6 +39,7 @@ singularity exec -H $PWD -B <path_to_index_directory> shub://jdwheaton/singulari
 		--sjdbGTFfile <path_to_genome_annotation> \
 		--sjdbOverhang 49
 ```
+More information on STAR can be found [here](https://github.com/alexdobin/STAR).
 
 7. Edit the cluster.json file to suit your particular cluster (i.e. partition name, memory, etc.)
 
@@ -50,8 +51,20 @@ singularity exec -H $PWD -B <path_to_index_directory> shub://jdwheaton/singulari
     
 9. Edit the `snakemake.sh` submission script to reflect your cluster configuration. Right now, the command works for SLURM systems, but you will need to modify the `-B <path>` to allow singularity access to directories other than your home directory. For example, if you create your STAR index outside of your home directory, you will need to provide either the STAR index directory or a location in its parent tree.
 
+If you get lost, the documenation for Singularity is [here](https://www.sylabs.io/docs/).
+
 10. Run the `snakemake.sh` script as a batch script using your cluster's scheduler. For SLURM, this would be:
 ```
 sbatch snakemake.sh
 ```
 That's it! Snakemake will automagically perform QC, trimming, alignment, and read-counting steps for all of the FASTQ files provided in the `raw_data` folder.
+
+## Worflow description
+
+Your files will be processed as follows:
+
+1. QC reports will be generated for all FASTQ files using FASTQC.
+2. Adapters are automatically detected and removed from reads using Trim Galore!
+3. Trimmed reads are aligned to the genome using STAR.
+4. Reads aligning to genes are counted using featureCounts, resulting in a matrix of counts that can be used as input to edgeR or DESeq2 for differential expression analysis.
+5. Covereage tracks for visualization (bigWig) are generated using deepTools bamCoverage
