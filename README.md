@@ -30,7 +30,7 @@ $ git clone https://github.com/jdwheaton/rnaseq_pipeline
 6. Build an index for STAR using the following command (executed as a batch script if using a cluster):
 
 ```
-singularity exec -H $PWD -B <path_to_index_directory> shub://jdwheaton/singularity_ngs:star_htseq \
+$ singularity exec -H $PWD -B <path_to_index_directory> shub://jdwheaton/singularity_ngs:star_htseq \
     STAR \
 		--runMode genomeGenerate \
 		--genomeDir <path_to_index_directory> \
@@ -59,7 +59,7 @@ sbatch snakemake.sh
 ```
 That's it! Snakemake will automagically perform QC, trimming, alignment, and read-counting steps for all of the FASTQ files provided in the `raw_data` folder.
 
-## Worflow description
+## Workflow description
 
 Your files will be processed as follows:
 
@@ -67,4 +67,4 @@ Your files will be processed as follows:
 2. Adapters are automatically detected and removed from reads using [Trim Galore!](https://www.bioinformatics.babraham.ac.uk/projects/trim_galore/)
 3. Trimmed reads are aligned to the genome using [STAR](https://github.com/alexdobin/STAR).
 4. Reads aligning to genes are counted using [featureCounts](http://bioinf.wehi.edu.au/featureCounts/), resulting in a matrix of counts that can be used as input to edgeR or DESeq2 for differential expression analysis.
-5. Covereage tracks for visualization (bigWig) are generated using [deepTools](https://deeptools.readthedocs.io/en/develop/) bamCoverage
+5. Coverage tracks for visualization (bigWig) are generated using [deepTools](https://deeptools.readthedocs.io/en/develop/) bamCoverage
