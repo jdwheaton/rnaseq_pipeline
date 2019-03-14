@@ -36,7 +36,7 @@ if [ "$paired" == true ]; then
   --use-singularity --singularity-args "-H $PWD -B /work/mc394/" \
   --cluster-config cluster.json \
   --cluster "sbatch -n {threads} --mem={cluster.mem} -t {cluster.time} \
-  -o {cluster.output} -e {cluster.error} --mail-type=FAIL"
+  -p {cluster.partition} -o {cluster.output} -e {cluster.error} --mail-type=FAIL"
 elif [ "$paired" == false ]; then
   # Execute sbatch command for single end
   echo "Executing single-end workflow"
@@ -44,7 +44,7 @@ elif [ "$paired" == false ]; then
   --use-singularity --singularity-args "-H $PWD -B /work/mc394/" \
   --cluster-config cluster.json \
   --cluster "sbatch -n {threads} --mem={cluster.mem} -t {cluster.time} \
-  -o {cluster.output} -e {cluster.error} --mail-type=FAIL"
+  -p {cluster.partition} -o {cluster.output} -e {cluster.error} --mail-type=FAIL"
 else
   echo "You did not specify a value for 'paired' in the config file!"
 fi
