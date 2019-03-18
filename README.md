@@ -47,7 +47,7 @@ More information on STAR can be found [here](https://github.com/alexdobin/STAR).
     - Path to STAR index
     - Path to transcriptome reference (.gtf file)
     - Name of final .counts file
-    - Boolean value (True or False) indicating whether your data are single- or paired-end.
+    - Boolean value (true or false) indicating whether your data are single- or paired-end.
     
 9. Edit the `snakemake.sh` submission script to reflect your cluster configuration. Right now, the command works for SLURM systems, but you will need to modify the `-B <path>` to allow singularity access to directories other than your home directory. For example, if you create your STAR index outside of your home directory, you will need to provide either the STAR index directory or a location in its parent tree.
 
