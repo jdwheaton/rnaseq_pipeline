@@ -57,6 +57,10 @@ If you get lost, the documenation for Singularity is [here](https://www.sylabs.i
 ```
 sbatch snakemake.sh
 ```
+
+> **NOTE:** If you are using SLURM, you **must** create the `logs/slurm/output` and `logs/slurm/error` directories prior to running snakemake, otherwise your jobs will instantly fail *with no error message*. This can be circumvented by installing a SLURM-specific snakemake [profile](https://github.com/Snakemake-Profiles/slurm) and adjusting the submit script accordingly.
+
+
 That's it! Snakemake will automagically perform QC, trimming, alignment, and read-counting steps for all of the FASTQ files provided in the `raw_data` folder.
 
 ## Workflow description
