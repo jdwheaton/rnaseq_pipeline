@@ -3,6 +3,7 @@ configfile: "config.yaml"
 SAMPLES, = glob_wildcards("raw_data/{smp}_R1.fastq.gz")
 INDEX_DIR = config["star_index"]
 ANNOTATION = config["annotation"]
+STRANDED = config["stranded"]
 
 COUNT_FILENAME = [config["count_filename"]]
 
@@ -105,12 +106,18 @@ rule featureCounts:
     output:
         COUNT_FILENAME
     threads: 4
+    params:
+        strand = [1 if STRANDED == 'forward' else 2 if STRANDED == 'reverse' else 0]
     singularity:
         "shub://jdwheaton/singularity-ngs:chip_atac_post"
     log:
         "logs/featureCounts.log"
     shell:
-        "featureCounts -p -T {threads} -a {ANNOTATION} -o {output} {input} &> {log}"
+        "featureCounts -p -s {params.strand} -T {threads} \
+        -a {ANNOTATION} \
+        -o {output} \
+        {input} \
+        &> {log}"
 
 rule bam_coverage:
     input:
