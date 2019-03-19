@@ -110,7 +110,7 @@ rule featureCounts:
     log:
         "logs/featureCounts.log"
     shell:
-        "featureCounts -T {threads} -a {ANNOTATION} -o {output} {input} &> {log}"
+        "featureCounts -p -T {threads} -a {ANNOTATION} -o {output} {input} &> {log}"
 
 rule bam_coverage:
     input:
