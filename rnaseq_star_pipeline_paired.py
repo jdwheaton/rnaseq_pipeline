@@ -25,7 +25,7 @@ rule fastqc:
     log:
         "logs/{sample}_fastqc.log"
     singularity:
-        "docker://biocontainers/fastqc"
+        "docker://dukegcb/fastqc"
     threads: 1
     shell:
         "fastqc -o fastqc_out/ {input} &> {log}"
@@ -81,7 +81,7 @@ rule samtools_sort:
         "results/{sample}.Aligned.out.sorted.bam"
     threads: 3
     singularity:
-        "docker://biocontainers/samtools"
+        "docker://jweinstk/samtools"
     log:
         "logs/{sample}.sort.out"
     shell:
@@ -94,7 +94,7 @@ rule samtools_index:
         "results/{sample}.Aligned.out.sorted.bai"
     threads: 1
     singularity:
-        "docker://biocontainers/samtools"
+        "docker://jweinstk/samtools"
     log:
         "logs/{sample}.index.out"
     shell:
@@ -109,7 +109,7 @@ rule featureCounts:
     params:
         strand = [1 if STRANDED == 'forward' else 2 if STRANDED == 'reverse' else 0]
     singularity:
-        "docker://genomicpariscentre/deeptools"
+        "docker://genomicpariscentre/featurecounts"
     log:
         "logs/featureCounts.log"
     shell:
