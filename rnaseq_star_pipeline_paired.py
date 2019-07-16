@@ -126,7 +126,7 @@ rule bam_coverage:
     output:
         "results/{sample}.rpkm.bw"
     singularity:
-        "docker://dukegcb/deeptools"
+        "docker://genomicpariscentre/deeptools"
     threads: 4
     log:
         "logs/{sample}_bamcoverage.log"
