@@ -56,7 +56,7 @@ rule star_align:
         prefix = "results/{sample}."
     threads: 6
     singularity:
-        "docker://alexdobin/star:2.6.1d"
+        "docker://dukegcb/star-align"
     log:
         "logs/{sample}.star.log"
     shell:
