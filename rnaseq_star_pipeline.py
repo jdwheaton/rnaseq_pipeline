@@ -127,7 +127,7 @@ rule bam_coverage:
     shell: """
             bamCoverage -p {threads} -b {input.BAM} -o {output} \
                 --binSize 10 \
-                --normalizeUsing RPKM \
+                --normalizeUsingRPKM \
                 --ignoreForNormalization chrX chrY chrM \
                 &> {log}
                 """
