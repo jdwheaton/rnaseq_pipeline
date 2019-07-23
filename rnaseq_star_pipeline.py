@@ -21,7 +21,7 @@ rule fastqc:
         "fastqc_out/{sample}_fastqc.zip"
     threads: 1
     singularity:
-        "shub://jdwheaton/singularity-ngs:qc_trim"
+        "docker://dukegcb/fastqc"
     log:
         "logs/{sample}.fastqc.out"
     shell:
@@ -34,7 +34,7 @@ rule trim_galore:
         "trimmed_fastq/{sample}_trimmed.fq"
     threads: 1
     singularity:
-        "shub://jdwheaton/singularity-ngs:qc_trim"
+        "docker://dukegcb/trim-galore"
     log:
         "logs/{sample}.trimgalore.out"
     shell:
@@ -50,7 +50,7 @@ rule star_align:
         prefix = "results/{sample}."
     threads: 6
     singularity:
-        "shub://jdwheaton/singularity-ngs:star_htseq"
+        "docker://dukegcb/star-align"
     log:
         "logs/{sample}.star.out"
     shell:
@@ -75,7 +75,7 @@ rule samtools_sort:
         "results/{sample}.Aligned.out.sorted.bam"
     threads: 3
     singularity:
-        "shub://jdwheaton/singularity-ngs:latest"
+        "docker://jweinstk/samtools"
     log:
         "logs/{sample}.sort.out"
     shell:
@@ -88,7 +88,7 @@ rule samtools_index:
         "results/{sample}.Aligned.out.sorted.bai"
     threads: 1
     singularity:
-        "shub://jdwheaton/singularity-ngs:latest"
+        "docker://jweinstk/samtools"
     log:
         "logs/{sample}.index.out"
     shell:
@@ -103,7 +103,7 @@ rule featureCounts:
     params:
         strand = [1 if STRANDED == 'forward' else 2 if STRANDED == 'reverse' else 0]
     singularity:
-        "shub://jdwheaton/singularity-ngs:chip_atac_post"
+        "docker://genomicpariscentre/featurecounts"
     log:
         "logs/featureCounts.log"
     shell:
@@ -120,7 +120,7 @@ rule bam_coverage:
     output:
         "results/{sample}.rpkm.bw"
     singularity:
-        "shub://jdwheaton/singularity-ngs:chip_atac_post"
+        "docker://genomicpariscentre/deeptools"
     threads: 4
     log:
         "logs/{sample}_bamcoverage.log"
