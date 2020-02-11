@@ -8,7 +8,7 @@ STRANDED = config["stranded"]
 COUNT_FILENAME = [config["count_filename"]]
 
 ALL_FASTQC = expand("fastqc_out/{smp}_fastqc.zip", smp=SAMPLES)
-ALL_BAMCOV = expand("results/{sample}.rpkm.bw", sample=SAMPLES)
+ALL_BAMCOV = expand("bigwigs/{sample}.rpkm.bw", sample=SAMPLES)
 
 rule all:
     input: ALL_BAMCOV + ALL_FASTQC + COUNT_FILENAME + ["multiqc_report.html"]
@@ -44,7 +44,7 @@ rule star_align:
     input:
         "trimmed_fastq/{sample}_trimmed.fq"
     output:
-        temp("results/{sample}.Aligned.out.bam")
+        temp("alignment/{sample}.Aligned.out.bam")
     params:
         index = INDEX_DIR,
         prefix = "results/{sample}."
@@ -70,9 +70,9 @@ rule star_align:
 
 rule samtools_sort:
     input:
-        "results/{sample}.Aligned.out.bam"
+        "alignment/{sample}.Aligned.out.bam"
     output:
-        "results/{sample}.Aligned.out.sorted.bam"
+        "alignment/{sample}.Aligned.out.sorted.bam"
     threads: 3
     singularity:
         "shub://jdwheaton/singularity-ngs:latest"
@@ -83,9 +83,9 @@ rule samtools_sort:
 
 rule samtools_index:
     input:
-        "results/{sample}.Aligned.out.sorted.bam"
+        "alignment/{sample}.Aligned.out.sorted.bam"
     output:
-        "results/{sample}.Aligned.out.sorted.bai"
+        "alignment/{sample}.Aligned.out.sorted.bai"
     threads: 1
     singularity:
         "shub://jdwheaton/singularity-ngs:latest"
@@ -96,7 +96,7 @@ rule samtools_index:
 
 rule featureCounts:
     input:
-        expand("results/{sample}.Aligned.out.sorted.bam", sample=SAMPLES)
+        expand("alignment/{sample}.Aligned.out.sorted.bam", sample=SAMPLES)
     output:
         COUNT_FILENAME
     threads: 4
@@ -118,7 +118,7 @@ rule bam_coverage:
         BAM = "results/{sample}.Aligned.out.sorted.bam",
         BAI = "results/{sample}.Aligned.out.sorted.bai"
     output:
-        "results/{sample}.rpkm.bw"
+        "bigwigs/{sample}.rpkm.bw"
     singularity:
         "shub://jdwheaton/singularity-ngs:chip_atac_post"
     threads: 4
